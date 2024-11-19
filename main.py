@@ -37,12 +37,18 @@ def put():
     global putting
     time.sleep(0.1)
     putting = 0
-def byouga(puyo1, puyo2, maps_kotei, maps):
+def byouga(puyo1, puyo2, maps_kotei, maps, falls):
     global count1, size, hold_puyo, hold_puyo2, next_puyo, next_puyo2, puyo, i
-    canvas.delete("block")
-    canvas.delete("label")
-    fall()
-    erase()
+    try:
+        canvas.delete("block")
+        canvas.delete("label")
+    except:
+        print("finish!")
+        sys.exit()
+    s = 0
+    if falls == "y":
+        fall()
+        s = erase()
     try:
         for x in range(12):
             for y in range(20):
@@ -109,25 +115,26 @@ def byouga(puyo1, puyo2, maps_kotei, maps):
                 else:
                     y[0] = y[0] - 1
             j = i
-            for k in range(2):
-                if maps[x[k]][y[k]] == 0:
-                    base_x = 640 - size * 6 + x[k]*size
-                    if puyos1[j] == 1 and k == 0:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="red", tag="block")
-                    if puyos1[j] == 2 and k == 0:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="yellow", tag="block")
-                    if puyos1[j] == 3 and k == 0:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="green", tag="block")
-                    if puyos1[j] == 4 and k == 0:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="purple", tag="block")
-                    if puyos2[j] == 1 and k == 1:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="red", tag="block")
-                    if puyos2[j] == 2 and k == 1:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="yellow", tag="block")
-                    if puyos2[j] == 3 and k == 1:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="green", tag="block")
-                    if puyos2[j] == 4 and k == 1:
-                        canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="purple", tag="block")
+            if falls == "y":
+                for k in range(2):
+                    if maps[x[k]][y[k]] == 0:
+                        base_x = 640 - size * 6 + x[k]*size
+                        if puyos1[j] == 1 and k == 0:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="red", tag="block")
+                        if puyos1[j] == 2 and k == 0:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="yellow", tag="block")
+                        if puyos1[j] == 3 and k == 0:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="green", tag="block")
+                        if puyos1[j] == 4 and k == 0:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="purple", tag="block")
+                        if puyos2[j] == 1 and k == 1:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="red", tag="block")
+                        if puyos2[j] == 2 and k == 1:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="yellow", tag="block")
+                        if puyos2[j] == 3 and k == 1:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="green", tag="block")
+                        if puyos2[j] == 4 and k == 1:
+                            canvas.create_rectangle(base_x + 10, y[k]*size + 10, base_x + size - 10, y[k]*size + size - 10, fill="purple", tag="block")
         except:
             a = 0
         canvas.update()
@@ -135,6 +142,10 @@ def byouga(puyo1, puyo2, maps_kotei, maps):
     except:
         print("Finish!")
         sys.exit()
+    try:
+        time.sleep(max(s, 0))
+    except:
+        a = 0
 def make_puyo():
     global puyo1, puyo2, maps, puyor, puyos1, puyos2
     puyor = [5, 1]
@@ -145,34 +156,31 @@ def make_puyo():
 def nanimosinai():
     aaa = 0
 def fall():
-    global maps, putting, puyor, maps_kotei, erased
+    global maps, putting, puyor, maps_kotei, erased, puyo1, puyo2
     if putting == 1:
-        tates = []
-        for i in range(len(maps[0])):
-            tate = []
-            for j in range(len(maps)):
-                tate.append(maps[j][i])
-            tates.append(tate)
-        for x in range(len(tates)):
-            for y in reversed(range(len(tates[x]))):
-                if tates[x][y] != 0 and tates[x][y] != 9:
-                    i = -1
-                    while True:
-                        i += 1
-                        if tates[x + i + 1][y] != 0:
-                            break
-                        else:
-                            tates[x + i][y], tates[x + i + 1][y] = tates[x + i + 1][y], tates[x + i][y]
-        maps = []
-        for i in range(len(tates[0])):
-            map1 = []
-            for j in range(len(tates)):
-                map1.append(tates[j][i])
-            maps.append(map1)
+        tates = tateyoko(maps)
+        i = 0
+        erases = 1
+        while True:
+            erases -= 1
+            for x in reversed(range(len(tates))):
+                for y in range(len(tates[x])):
+                    if tates[x][y] != 0 and tates[x][y] != 9:
+                        if tates[x + 1][y] == 0:
+                            maps3 = tateyoko(tates)
+                            byouga(puyo1, puyo2, maps_kotei, maps3, "n")
+                            tates[x][y], tates[x + 1][y] = tates[x + 1][y], tates[x][y]
+                            erases = 1
+            if erases > 0:
+                time.sleep(0.1)
+            if erases == 0:
+                break
+        maps = tateyoko(tates)
 def erase():
-    global putting, puyor, erased
+    global putting, puyor, erased, maps, erasea
     maps2 = copy(maps)
     if putting == 1:
+        erasea = 0
         for y in range(len(maps2)):
             for x in range(len(maps2[y])):
                 if maps2[y][x] != 0 and maps2[y][x] != 9 and maps2[y][x] != "*":
@@ -180,12 +188,14 @@ def erase():
                     watch = 0
                     if maps2[y][x] == 1:
                         watch = 1
-                    if maps2[y][x] == 2:
+                    elif maps2[y][x] == 2:
                         watch = 2
-                    if maps2[y][x] == 3:
+                    elif maps2[y][x] == 3:
                         watch = 3
-                    if maps2[y][x] == 4:
+                    elif maps2[y][x] == 4:
                         watch = 4
+                    else:
+                        print(maps[y][x])
                     count = 1
                     maps2[y][x] = "*"
                     p_hozon = [[y, x]]
@@ -205,13 +215,13 @@ def erase():
                                     maps2[p[l][0] - 1][p[l][1]] = "*"
                                     p.append([p[l][0] - 1, p[l][1]])
                                     p_hozon.append([p[l][0] - 1, p[l][1]])
-                                if p[l][0] != len(maps2) - 2 and maps2[p[l][0]][p[l][1] + 1] == watch:
+                                if p[l][0] != len(maps2) - 1 and maps2[p[l][0]][p[l][1] + 1] == watch:
                                     can = 1
                                     count += 1
                                     maps2[p[l][0]][p[l][1] + 1] = "*"
                                     p.append([p[l][0], p[l][1] + 1])
                                     p_hozon.append([p[l][0], p[l][1] + 1])
-                                if p[l][1] != len(maps2[y]) - 2 and maps2[p[l][0] + 1][p[l][1]] == watch:
+                                if p[l][1] != len(maps2[y]) - 1 and maps2[p[l][0] + 1][p[l][1]] == watch:
                                     can = 1
                                     count += 1
                                     maps2[p[l][0] + 1][p[l][1]] = "*"
@@ -226,6 +236,12 @@ def erase():
                     if count >= 4:
                         for a in range(len(p_hozon)):
                             maps[p_hozon[a][0]][p_hozon[a][1]] = 0
+                        erasea = 2
+                        if len(p_hozon) != 0:
+                            return 0
+                        else:
+                            return 0
+                    if erasea > 0:
                         fall()
 def hold():
     global maps, hold_puyo, hold_puyo2, i, puyo, puyo1, puyo2, holding, break_
@@ -256,7 +272,16 @@ def copy(list1):
         for x in range(len(list1[y])):
             return1[y].append(list1[y][x])
     return return1
+def tateyoko(map1):
+    tates = []
+    for i in range(len(map1[0])):
+        tate = []
+        for j in range(len(map1)):
+            tate.append(map1[j][i])
+        tates.append(tate)
+    return tates
 size = 40
+erasea = 0
 maps = [
     [9, 9, 9, 9, 9, 9, 9, 9, 9, 9 ,9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
     [9, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
@@ -306,9 +331,9 @@ while True:
                 puyos2.append(puyo_[j])
         if break_ != 1:
             maps_kotei = maps.copy()
-            root.after(0, byouga(puyo1, puyo2, maps_kotei, maps))
+            root.after(0, byouga(puyo1, puyo2, maps_kotei, maps, "y"))
             maps_kotei = maps.copy()
-            root.after(20, byouga(puyo1, puyo2, maps_kotei, maps))
+            root.after(20, byouga(puyo1, puyo2, maps_kotei, maps, "y"))
         break_ = 0
         putting = 0
         stop = 0
@@ -329,11 +354,22 @@ while True:
             if game_over == 1:
                 break
             while key == "Up":
-                root.after(20, byouga(puyo1, puyo2, maps_kotei, maps))
+                root.after(20, byouga(puyo1, puyo2, maps_kotei, maps, "y"))
             fps1 = time.time()
-            root.after(20, byouga(puyo1, puyo2, maps_kotei, maps))
+            root.after(20, byouga(puyo1, puyo2, maps_kotei, maps, "y"))
             next_puyo = puyos1[i + 1]
             next_puyo2 = puyos2[i + 1]
+            if key == "p":
+                canvas.create_text(960, 540, text="Pause", font=("HG丸ｺﾞｼｯｸM-PRO",10), tag="label")
+                canvas.update()
+                print("Hi")
+                time.sleep(0.5)
+                print("yes")
+                while True:
+                    time.sleep(0.1)
+                    if key == "p":
+                        break
+                print("Succeses")
             if key == "Up":
                 maps[puyo1[0]][puyo1[1]] = 0
                 maps[puyo2[0]][puyo2[1]] = 0
@@ -400,7 +436,7 @@ while True:
                     if maps[puyor[0] + puyo1_sa_y][puyor[1] - puyo1_sa_x] == 0 and maps[puyor[0] + puyo2_sa_y][puyor[1] - puyo2_sa_x] == 0:
                         puyo1[0], puyo1[1] = puyor[0] + puyo1_sa_y, puyor[1] - puyo1_sa_x
                         puyo2[0], puyo2[1] = puyor[0] + puyo2_sa_y, puyor[1] - puyo2_sa_x
-                        byouga(puyo1, puyo2, maps_kotei, maps)
+                        byouga(puyo1, puyo2, maps_kotei, maps, "y")
                     maps[puyo1[0]][puyo1[1]] = puyos1[i]
                     maps[puyo2[0]][puyo2[1]] = puyos2[i]
                 except:
@@ -423,7 +459,7 @@ while True:
                 hold()
                 if break_ == 1:
                     break
-        if puyo1[1] < 2 or puyo2[1] < 2:
+        if puyo1[1] < 1 or puyo2[1] < 1:
             game_over = 1
-byouga(puyo1, puyo2, maps_kotei, maps)
+byouga(puyo1, puyo2, maps_kotei, maps, "y")
 print("game over")
