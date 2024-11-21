@@ -149,11 +149,11 @@ def byouga(puyo1, puyo2, maps_kotei, maps, falls):
         a = 0
 def make_puyo():
     global puyo1, puyo2, maps, puyor, puyos1, puyos2
-    puyor = [5, 1]
-    puyo1 = [5, 1]
-    puyo2 = [6, 1]
-    maps[5][1] = puyos1[i]
-    maps[6][1] = puyos2[i]
+    puyor = [3, 1]
+    puyo1 = [3, 1]
+    puyo2 = [4, 1]
+    maps[3][1] = puyos1[i]
+    maps[4][1] = puyos2[i]
 def nanimosinai():
     aaa = 0
 def fall():
