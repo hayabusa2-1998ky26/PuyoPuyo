@@ -434,29 +434,86 @@ while True:
                 time.sleep(0.1)
             if key == "z" and key != before_key:
                 try:
+                    a = 0
                     maps[puyo1[0]][puyo1[1]] = 0
                     maps[puyo2[0]][puyo2[1]] = 0
                     puyo1_sa_x, puyo1_sa_y = puyo1[0] - puyor[0], puyo1[1] - puyor[1]
                     puyo2_sa_x, puyo2_sa_y = puyo2[0] - puyor[0], puyo2[1] - puyor[1]
+                    puyo1[0], puyo1[1] = puyor[0] + puyo1_sa_y, puyor[1] - puyo1_sa_x
+                    puyo2[0], puyo2[1] = puyor[0] + puyo2_sa_y, puyor[1] - puyo2_sa_x
                     if maps[puyor[0] + puyo1_sa_y][puyor[1] - puyo1_sa_x] == 0 and maps[puyor[0] + puyo2_sa_y][puyor[1] - puyo2_sa_x] == 0:
-                        puyo1[0], puyo1[1] = puyor[0] + puyo1_sa_y, puyor[1] - puyo1_sa_x
-                        puyo2[0], puyo2[1] = puyor[0] + puyo2_sa_y, puyor[1] - puyo2_sa_x
-                        byouga(puyo1, puyo2, maps_kotei, maps, "y")
+                        a = 1
+                    puyo1a = puyo1.copy()
+                    puyo2a = puyo2.copy()
+                    puyora = puyor.copy()
+                    if puyo2[0] - puyo1[0] == 1 and a == 0:
+                        puyo2a[0] += -1
+                        puyo1a[0] += -1
+                        puyora[0] += -1
+                    if puyo2[0] - puyo1[0] == -1 and a == 0:
+                        puyo2a[0] += 1
+                        puyo1a[0] += 1
+                        puyora[0] += 1
+                    if puyo2[1] - puyo1[1] == 1 and a == 0:
+                        puyo2a[1] += -1
+                        puyo1a[1] += -1
+                        puyora[1] += -1
+                    if puyo2[1] - puyo1[1] == -1 and a == 0:
+                        puyo2a[1] += 1
+                        puyo1a[1] += 1
+                        puyora[1] += 1
+                    if maps[puyo2a[0]][puyo2a[1]] != 0:
+                        puyo1_sa_x, puyo1_sa_y = puyo1[0] - puyor[0], puyo1[1] - puyor[1]
+                        puyo2_sa_x, puyo2_sa_y = puyo2[0] - puyor[0], puyo2[1] - puyor[1]
+                        puyo1[0], puyo1[1] = puyor[0] - puyo1_sa_y, puyor[1] + puyo1_sa_x
+                        puyo2[0], puyo2[1] = puyor[0] - puyo2_sa_y, puyor[1] + puyo2_sa_x
+                    else:
+                        puyo1, puyo2, puyor = puyo1a.copy(), puyo2a.copy(), puyora.copy()
                     maps[puyo1[0]][puyo1[1]] = puyos1[i]
                     maps[puyo2[0]][puyo2[1]] = puyos2[i]
+                    byouga(puyo1, puyo2, maps_kotei, maps, "y")
                 except:
                     a = 0
             if key == "x" and key != before_key:
                 try:
+                    a = 0
                     maps[puyo1[0]][puyo1[1]] = 0
                     maps[puyo2[0]][puyo2[1]] = 0
                     puyo1_sa_x, puyo1_sa_y = puyo1[0] - puyor[0], puyo1[1] - puyor[1]
                     puyo2_sa_x, puyo2_sa_y = puyo2[0] - puyor[0], puyo2[1] - puyor[1]
+                    puyo1[0], puyo1[1] = puyor[0] - puyo1_sa_y, puyor[1] + puyo1_sa_x
+                    puyo2[0], puyo2[1] = puyor[0] - puyo2_sa_y, puyor[1] + puyo2_sa_x
                     if maps[puyor[0] - puyo1_sa_y][puyor[1] + puyo1_sa_x] == 0 and maps[puyor[0] - puyo2_sa_y][puyor[1] + puyo2_sa_x] == 0:
-                        puyo1[0], puyo1[1] = puyor[0] - puyo1_sa_y, puyor[1] + puyo1_sa_x
-                        puyo2[0], puyo2[1] = puyor[0] - puyo2_sa_y, puyor[1] + puyo2_sa_x
+                        a = 1
+                    puyo1a = puyo1.copy()
+                    puyo2a = puyo2.copy()
+                    puyora = puyor.copy()
+                    if puyo2[0] - puyo1[0] == 1 and a == 0:
+                        puyo2a[0] += -1
+                        puyo1a[0] += -1
+                        puyora[0] += -1
+                    if puyo2[0] - puyo1[0] == -1 and a == 0:
+                        puyo2a[0] += 1
+                        puyo1a[0] += 1
+                        puyora[0] += 1
+                    if puyo2[1] - puyo1[1] == 1 and a == 0:
+                        puyo2a[1] += -1
+                        puyo1a[1] += -1
+                        puyora[1] += -1
+                    if puyo2[1] - puyo1[1] == -1 and a == 0:
+                        puyo2a[1] += 1
+                        puyo1a[1] += 1
+                        puyora[1] += 1
+                    if maps[puyo2a[0]][puyo2a[1]] != 0:
+                        puyo1_sa_x, puyo1_sa_y = puyo1[0] - puyor[0], puyo1[1] - puyor[1]
+                        puyo2_sa_x, puyo2_sa_y = puyo2[0] - puyor[0], puyo2[1] - puyor[1]
+                        puyo1[0], puyo1[1] = puyor[0] + puyo1_sa_y, puyor[1] - puyo1_sa_x
+                        puyo2[0], puyo2[1] = puyor[0] + puyo2_sa_y, puyor[1] - puyo2_sa_x
+                    else:
+                        puyo1, puyo2, puyor = puyo1a.copy(), puyo2a.copy(), puyora.copy()
                     maps[puyo1[0]][puyo1[1]] = puyos1[i]
                     maps[puyo2[0]][puyo2[1]] = puyos2[i]
+                    byouga(puyo1, puyo2, maps_kotei, maps, "y")
                 except:
                     a = 0
             if key == "c" and key != before_key:
